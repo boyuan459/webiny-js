@@ -118,6 +118,16 @@ module.exports = ({ cli }) => {
                             path: "/",
                             method: "ANY",
                             function: "${site}"
+                        },
+                        {
+                            path: "/appsTodos/{key+}",
+                            method: "ANY",
+                            function: "${appsTodos}"
+                        },
+                        {
+                            path: "/appsTodos",
+                            method: "ANY",
+                            function: "${appsTodos}"
                         }
                     ]
                 }
@@ -147,6 +157,24 @@ module.exports = ({ cli }) => {
                             allowedHttpMethods: ["HEAD", "GET"]
                         }
                     ]
+                }
+            },
+            appsTodos: {
+                build: {
+                    root: "./todos",
+                    script: `yarn build:${cli.env}`
+                },
+                deploy: {
+                    component: "@webiny/serverless-function",
+                    inputs: {
+                        role: "${lambdaRole.arn}",
+                        region: process.env.AWS_REGION,
+                        description: "Webiny Admin",
+                        code: "./todos/build",
+                        handler: "handler.handler",
+                        memory: 128,
+                        timeout: 30
+                    }
                 }
             }
         }
