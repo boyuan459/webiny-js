@@ -1,5 +1,8 @@
 {
   "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "src"
+  },
   "include": ["src"],
   "exclude": ["../../packages/app-template-admin"],
   "references": [

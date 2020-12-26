@@ -2,7 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Route } from "@webiny/react-router";
 import { AdminLayout } from "@webiny/app-admin/components/AdminLayout";
-import Home from './components/Home';
+import Container from "components/Container"
+import Home from "./components/Home";
 
 export default () => [
   {
@@ -13,12 +14,12 @@ export default () => [
         exact
         path="/"
         render={() => (
-          <div className="container">
+          <Container>
             <AdminLayout>
               <Helmet title="home" />
               <Home />
             </AdminLayout>
-          </div>
+          </Container>
         )}
       />
     )
