@@ -4,7 +4,7 @@ import { FiGrid } from "react-icons/fi";
 
 const Dashboard = () => {
   return (
-    <Link to={"/boards"}>
+    <Link to={"/workspaces"}>
       <FiGrid color="#FFFFFF" size={28} />
     </Link>
   );

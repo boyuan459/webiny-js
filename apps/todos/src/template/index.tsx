@@ -9,9 +9,9 @@ import { SecurityProvider } from "@webiny/app-security/contexts/Security";
 import { AppInstaller } from "@webiny/app-admin/components/Install/AppInstaller";
 import { BrowserRouter, Route, Redirect } from "@webiny/react-router";
 import { ThemeProvider } from "@webiny/app-admin/contexts/Theme";
+import { CmsProvider } from "@webiny/app-headless-cms/admin/contexts/Cms";
 
 // Other plugins
-import adminPlugins from "@webiny/app-admin/plugins";
 import securityPlugins from "@webiny/app-security/admin/plugins";
 import cognito from "@webiny/app-plugin-security-cognito";
 import cognitoTheme from "@webiny/app-plugin-security-cognito-theme/admin";
@@ -21,6 +21,7 @@ import { CircularProgress } from "@webiny/ui/Progress";
 import { createApolloClient } from "../apolloClient";
 import layoutPlugins from "../plugins/layout";
 import homePlugins from "../plugins/home";
+import workspacePlugins from "plugins/workspace";
 
 type Options = {
   cognito: {
@@ -84,6 +85,13 @@ export default createTemplate<Options>(opts => {
         return <ThemeProvider>{children}</ThemeProvider>
       }
     },
+    {
+      type: "app-template-renderer",
+      name: "app-template-renderer-headless-cms",
+      render(children) {
+        return <CmsProvider>{children}</CmsProvider>
+      }
+    }
   ];
 
   const routes: RoutePlugin[] = [
@@ -97,7 +105,7 @@ export default createTemplate<Options>(opts => {
   const otherPlugins = [
     ...routes,
     homePlugins(),
-    adminPlugins(),
+    workspacePlugins(),
     securityPlugins(),
     cognito(opts.cognito),
     cognitoTheme(),

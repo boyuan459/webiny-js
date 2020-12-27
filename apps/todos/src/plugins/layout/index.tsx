@@ -6,7 +6,7 @@ import Content from './Content';
 
 // AppBar plugins
 import Logo from "./Logo";
-import Dashboard from "./Dashboard";
+import Workspace from "./Workspace";
 import Notification from "./Notification";
 
 export default (): PluginCollection => [
@@ -15,6 +15,6 @@ export default (): PluginCollection => [
   Content,
   // AppBar plugins
   Logo,
-  Dashboard,
+  Workspace,
   Notification
 ];

@@ -38,7 +38,7 @@ const Wrapper = styled("div")({
   width: "55px",
   height: "100vh",
   color: "var(--mdc-theme-surface)",
-  backgroundColor: "var(--todos-theme-primary)"
+  backgroundColor: "var(--mdc-theme-primary)"
 })
 
 const plugin: AdminLayoutComponentPlugin = {

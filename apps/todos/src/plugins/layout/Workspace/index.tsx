@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { AdminAppBarTopPlugin } from "types"
-import Dashboard from "./Dashboard";
+import Workspace from "./Workspace";
 
 const Wrapper = styled("div")({
   margin: "10px 0",
@@ -12,12 +12,12 @@ const Wrapper = styled("div")({
 
 export default [
   {
-    name: "admin-appbar-dashboard",
+    name: "admin-appbar-workspace",
     type: "admin-appbar-top",
     render() {
       return (
         <Wrapper>
-          <Dashboard />
+          <Workspace />
         </Wrapper>
       );
     }

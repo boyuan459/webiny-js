@@ -3,7 +3,10 @@ import styled from "@emotion/styled";
 import { AdminLayoutComponentPlugin } from "@webiny/app-admin/types";
 
 const AdminLayoutRoot = styled("div")({
-  flex: "1"
+  flex: "1",
+  ".webiny-split-view__right-panel-wrapper": {
+    height: "100vh"
+  }
 });
 
 const plugins: AdminLayoutComponentPlugin[] = [
