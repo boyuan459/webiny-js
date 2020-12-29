@@ -98,3 +98,20 @@ export const DELETE_CONTENT_MODEL_GROUP = gql`
         }
     }
 `;
+
+export const CREATE_CONTENT_MODEL = gql`
+    mutation CreateContentModel($data: CmsContentModelInput!) {
+        createContentModel(data: $data) {
+            data {
+                id
+                name
+                description
+                modelId
+            }
+            error {
+                message
+                data
+            }
+        }
+    }
+`;

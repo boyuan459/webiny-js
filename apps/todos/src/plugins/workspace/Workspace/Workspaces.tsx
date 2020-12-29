@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { i18n } from "@webiny/app/i18n";
 import { useCrud } from "@webiny/app-admin/hooks/useCrud";
@@ -16,6 +16,7 @@ import {
 } from "@webiny/form";
 import { Input } from "@webiny/ui/Input";
 import { FiPlusCircle, FiSearch } from "react-icons/fi";
+import CreateWorkspace from './CreateWorkspace';
 
 const t = i18n.ns("app-headless-cms/admin/content-model-groups/data-list");
 
@@ -35,15 +36,26 @@ const CtaWrapper = styled("div")({
 });
 
 const Workspaces = () => {
-  const { list } = useCrud();
-console.log('list', list)
+  const { list, actions } = useCrud();
+  const [ open, setOpen ] = useState(false);
+
+  const onCreateCancel = () => {
+    setOpen(false);
+  }
+
+  const onCreate = () => {
+    setOpen(true);
+    actions.resetForm();
+  }
+
   return (
       <Wrapper>
           <CtaWrapper>
-              <ButtonDefault>
+              <ButtonDefault onClick={onCreate}>
                   <FiPlusCircle size={20} />
                   &nbsp;Add workspace
               </ButtonDefault>
+              <CreateWorkspace open={open} onCancel={onCreateCancel} />
           </CtaWrapper>
           <Form>
               {({ Bind }) => (
