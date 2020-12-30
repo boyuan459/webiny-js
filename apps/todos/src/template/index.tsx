@@ -22,6 +22,7 @@ import { createApolloClient } from "../apolloClient";
 import layoutPlugins from "../plugins/layout";
 import homePlugins from "../plugins/home";
 import workspacePlugins from "plugins/workspace";
+import icons from "plugins/icons";
 
 type Options = {
   cognito: {
@@ -110,6 +111,7 @@ export default createTemplate<Options>(opts => {
     cognito(opts.cognito),
     cognitoTheme(),
     layoutPlugins(),
+    icons,
     ...(opts.plugins || [])
   ];
 

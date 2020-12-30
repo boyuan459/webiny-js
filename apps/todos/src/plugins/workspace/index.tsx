@@ -36,5 +36,49 @@ export default () => [
         )}
       />
     )
+  },
+  {
+    name: "route-workspace",
+    type: "route",
+    route: (
+      <Route
+        exact
+        path="/workspaces/:wid"
+        render={() => (
+          <SecureRoute scopes={ROLE_CMS_CONTENT_GROUPS}>
+            <Container>
+              <AdminLayout>
+                <Helmet title="workspace" />
+                <Loader>
+                  <ContentModelGroupsView />
+                </Loader>
+              </AdminLayout>
+            </Container>
+          </SecureRoute>
+        )}
+      />
+    )
+  },
+  {
+    name: "route-board",
+    type: "route",
+    route: (
+      <Route
+        exact
+        path="/workspaces/:wid/boards/:bid"
+        render={() => (
+          <SecureRoute scopes={ROLE_CMS_CONTENT_GROUPS}>
+            <Container>
+              <AdminLayout>
+                <Helmet title="board" />
+                <Loader>
+                  <ContentModelGroupsView />
+                </Loader>
+              </AdminLayout>
+            </Container>
+          </SecureRoute>
+        )}
+      />
+    )
   }
 ];

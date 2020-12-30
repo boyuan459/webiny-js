@@ -1,5 +1,5 @@
 import React from "react";
-import { SplitView, LeftPanel, RightPanel } from "@webiny/app-admin/components/SplitView";
+import styled from "@emotion/styled";
 import { CrudProvider } from "@webiny/app-admin/contexts/Crud";
 import { useCms } from "@webiny/app-headless-cms/admin/hooks";
 import {
@@ -10,58 +10,59 @@ import {
   DELETE_CONTENT_MODEL_GROUP
 } from "./graphql";
 import Workspaces from "./Workspaces";
+import Workspace from "./Workspace";
 
-const Workspace = () => {
+const Wrapper = styled("div")({
+  display: "flex",
+  flexDirection: "row",
+  flex: "1"
+});
+
+const Page = () => {
   const { environments: { apolloClient }} = useCms();
 
   return (
-    <CrudProvider
-      delete={{
-        mutation: DELETE_CONTENT_MODEL_GROUP,
-        options: {
-          client: apolloClient,
-          refetchQueries: [ "HeadlessCmsListMenuContentGroupsModels" ]
-        }
-      }}
-      read={{
-        query: GET_CONTENT_MODEL_GROUP,
-        options: {
-            client: apolloClient
-        }
-      }}
-      create={{
-          mutation: CREATE_CONTENT_MODEL_GROUP,
-          options: {
-              client: apolloClient,
-              refetchQueries: ["HeadlessCmsListMenuContentGroupsModels"]
-          }
-      }}
-      update={{
-          mutation: UPDATE_CONTENT_MODEL_GROUP,
-          options: {
-              client: apolloClient
-          }
-      }}
-      list={{
-          query: LIST_CONTENT_MODEL_GROUPS,
-          variables: { sort: { savedOn: -1 } },
-          options: {
-              client: apolloClient
-          }
-      }}
-    >
-      {({ actions }) => (
-        <SplitView>
-          <LeftPanel span={2}>
-            <Workspaces />
-          </LeftPanel>
-          <RightPanel span={10}>
-            <div>tickets</div>
-          </RightPanel>
-        </SplitView>
-      )}
-    </CrudProvider>
-  )
+      <Wrapper>
+          <CrudProvider
+              delete={{
+                  mutation: DELETE_CONTENT_MODEL_GROUP,
+                  options: {
+                      client: apolloClient,
+                      refetchQueries: ["HeadlessCmsListMenuContentGroupsModels"]
+                  }
+              }}
+              read={{
+                  query: GET_CONTENT_MODEL_GROUP,
+                  options: {
+                      client: apolloClient
+                  }
+              }}
+              create={{
+                  mutation: CREATE_CONTENT_MODEL_GROUP,
+                  options: {
+                      client: apolloClient,
+                      refetchQueries: ["ListContentModelGroups"]
+                  }
+              }}
+              update={{
+                  mutation: UPDATE_CONTENT_MODEL_GROUP,
+                  options: {
+                      client: apolloClient
+                  }
+              }}
+              list={{
+                  query: LIST_CONTENT_MODEL_GROUPS,
+                  variables: { sort: { savedOn: -1 }, limit: 10 },
+                  options: {
+                      client: apolloClient
+                  }
+              }}
+          >
+              {({ actions }) => <Workspaces />}
+          </CrudProvider>
+          <Workspace />
+      </Wrapper>
+  );
 }
 
-export default Workspace;
+export default Page;

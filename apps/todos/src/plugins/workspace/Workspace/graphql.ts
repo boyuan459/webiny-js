@@ -28,6 +28,7 @@ export const LIST_CONTENT_MODEL_GROUPS = gql`
             data {
                 id
                 name
+                icon
                 totalContentModels
             }
             meta {
@@ -94,23 +95,6 @@ export const DELETE_CONTENT_MODEL_GROUP = gql`
             error {
                 code
                 message
-            }
-        }
-    }
-`;
-
-export const CREATE_CONTENT_MODEL = gql`
-    mutation CreateContentModel($data: CmsContentModelInput!) {
-        createContentModel(data: $data) {
-            data {
-                id
-                name
-                description
-                modelId
-            }
-            error {
-                message
-                data
             }
         }
     }

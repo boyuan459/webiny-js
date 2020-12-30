@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import get from "lodash/get";
+import classnames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { i18n } from "@webiny/app/i18n";
 import { useCrud } from "@webiny/app-admin/hooks/useCrud";
+import { Link, useRouter } from "@webiny/react-router";
 import {
   DataList,
   List,
@@ -11,65 +15,115 @@ import {
 import {
   ButtonDefault,
 } from "@webiny/ui/Button";
-import {
-  Form
-} from "@webiny/form";
-import { Input } from "@webiny/ui/Input";
-import { FiPlusCircle, FiSearch } from "react-icons/fi";
+import { FiPlusCircle, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import CreateWorkspace from './CreateWorkspace';
 
 const t = i18n.ns("app-headless-cms/admin/content-model-groups/data-list");
 
+const CtaWrapper = styled("div")({
+  padding: "10px 0"
+});
+
+const ButtonText = styled.span`
+  margin-left: 10px;
+`;
+
 const Wrapper = styled("div")({
+  position: "relative",
+  width: "250px",
+  backgroundColor: "var(--mdc-theme-surface)",
+  borderRight: "1px solid var(--mdc-theme-on-background)",
   ".webiny-data-list": {
     ".mdc-layout-grid": {
       padding: "5px 0",
       ".mdc-layout-grid__inner": {
         gridGap: 0
       }
+    },
+    "a": {
+      textDecoration: "none"
+    },
+    ".mdc-list-item": {
+      padding: "3px 10px",
+
+      ".mdc-list-item__text": {
+        paddingLeft: "10px"
+      }
     }
+  },
+  "&.close": {
+    width: "45px",
+
+    ".mdc-layout-grid__inner": {
+      display: "none"
+    },
+
+    ".webiny-ui-button": {
+      minWidth: "45px"
+    },
+    ".mdc-button__label": {
+      "span": {
+        display: "none"
+      }
+    },
+
+    ".webiny-data-list": {
+      ".mdc-list-item": {
+        ".mdc-list-item__text": {
+          display: "none"
+        }
+      }
+    },
   }
 });
 
-const CtaWrapper = styled("div")({
-  padding: "10px 0"
+const ArrowWrapper = styled("div")({
+  position: "absolute",
+  zIndex: 2,
+  right: "0",
+  top: "40px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "25px",
+  height: "25px",
+  border: "1px solid var(--mdc-theme-on-background)",
+  borderRadius: "50%",
+  transform: "translateX(50%)",
+  backgroundColor: "var(--mdc-theme-surface)",
+  cursor: "pointer"
 });
 
 const Workspaces = () => {
+  const { match } = useRouter();
   const { list, actions } = useCrud();
-  const [ open, setOpen ] = useState(false);
+  const [ openCreate, setOpenCreate ] = useState(false);
+  const [ openWorkspaces, setOpenWorkspaces ] = useState(true);
 
   const onCreateCancel = () => {
-    setOpen(false);
+    setOpenCreate(false);
   }
 
   const onCreate = () => {
-    setOpen(true);
+    setOpenCreate(true);
     actions.resetForm();
   }
 
   return (
-      <Wrapper>
+      <Wrapper className={classnames({ close: !openWorkspaces })}>
+          <ArrowWrapper onClick={() => setOpenWorkspaces(!openWorkspaces)}>
+            {openWorkspaces ? <FiChevronLeft size={20} /> : <FiChevronRight size={20} />}
+          </ArrowWrapper>
           <CtaWrapper>
               <ButtonDefault onClick={onCreate}>
                   <FiPlusCircle size={20} />
-                  &nbsp;Add workspace
+                  <ButtonText>Add workspace</ButtonText>
               </ButtonDefault>
-              <CreateWorkspace open={open} onCancel={onCreateCancel} />
+              <CreateWorkspace open={openCreate} onCancel={onCreateCancel} />
           </CtaWrapper>
-          <Form>
-              {({ Bind }) => (
-                  <Bind name="phone">
-                      <Input
-                          leadingIcon={<FiSearch />}
-                          label={"Search workspace..."}
-                          disabled={false}
-                      />
-                  </Bind>
-              )}
-          </Form>
           <DataList
               {...list}
+              perPageOptions={[ 5, 10, 15 ]}
               sorters={[
                   {
                       label: t`Newest to oldest`,
@@ -92,9 +146,15 @@ const Workspaces = () => {
               {({ data, isSelected, select }) => (
                   <List data-testid="default-data-list">
                       {data.map(item => (
-                          <ListItem key={item.id} selected={isSelected(item)}>
-                              <ListItemText onClick={() => select(item)}>{item.name}</ListItemText>
+                        <Link key={item.id} to={`/workspaces/${item.id}`}>
+                          <ListItem key={item.id} selected={isSelected(item) || item.id === get(match, "params.wid") }>
+                            <FontAwesomeIcon
+                              style={{ color: "var(--mdc-theme-text-secondary-on-background)", fontSize: "20px" }}
+                              icon={item.icon.split("/")}
+                            />
+                            <ListItemText onClick={() => select(item)}>{item.name}</ListItemText>
                           </ListItem>
+                        </Link>
                       ))}
                   </List>
               )}
