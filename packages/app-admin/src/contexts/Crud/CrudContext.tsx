@@ -148,7 +148,6 @@ export const CrudProvider = ({ children, ...props }: CrudProviderProps) => {
 
                 !id && list.refresh();
                 setMutationInProgress(false);
-                return data;
             });
         },
         resetForm: () => {
