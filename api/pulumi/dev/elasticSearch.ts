@@ -48,7 +48,7 @@ class ElasticSearch {
                             },
                             Action: "es:*",
                             Resource: this.domain.arn.apply(v => `${v}/*`)
-                        }
+                        },
                         /**
                          * Uncomment the following `Allow` policy to allow access from specific IP address.
                          * This will be useful for development purposes, when you want to access Kibana to inspect your data.
@@ -58,17 +58,17 @@ class ElasticSearch {
                          * https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html
                          */
 
-                        // {
-                        //     Effect: "Allow",
-                        //     Principal: "*",
-                        //     Action: "es:*",
-                        //     Resource: this.domain.arn.apply(v => `${v}/!*`),
-                        //     Condition: {
-                        //         IpAddress: {
-                        //             "aws:SourceIp": "213.149.51.28/32"
-                        //         }
-                        //     }
-                        // }
+                        {
+                            Effect: "Allow",
+                            Principal: "*",
+                            Action: "es:*",
+                            Resource: this.domain.arn.apply(v => `${v}/*`),
+                            Condition: {
+                                IpAddress: {
+                                    "aws:SourceIp": [ "58.163.149.221/32", "14.137.64.30", "193.82.248.117" ]
+                                }
+                            }
+                        }
                     ]
                 })
             )

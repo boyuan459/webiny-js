@@ -5,6 +5,7 @@
       "plugins/cli-plugin-generate-ts-configs",
       "packages/*",
       "apps/admin/code",
+      "apps/tusko/code",
       "apps/website/code",
       "apps/theme",
       "api/code/dynamoToElastic",
